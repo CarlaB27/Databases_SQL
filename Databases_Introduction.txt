@@ -1,0 +1,97 @@
+1. What data types do each of these values represent?
+
+"A Clockwork Orange" - string
+42 - integer
+09/02/1945 - date 
+98.7 - float
+$15.99 - float
+
+2. Explain when a database would be used. Explain when a text file would be used.
+
+A database should be used to contain data; it may have different data types, need to be changed, calculate, maniputlate, updated, stored or deleted.
+A text file should be used when the information is to be readable by humans.
+
+3. Describe one difference between SQL and other programming languages.
+
+SQL is a declarative language (not procedural). This means it asks for the results instead of specifying the steps to produce the results. 
+
+4: In your own words, explain how the pieces of a database system fit together at a high level.
+
+A data base is an application that allows users to manage data through an interface. Data is stored in a binary file format. 
+
+5: Explain the meaning of table, row, column, and value.
+
+Table is a way to lay out the record of data. Columns define what the data represents. Rows make up a complete conceptual unit. Values are the data (information) held in each cell.
+
+6. List three data types that can be used in a table.
+
+Integer, string, float.
+
+7. Given this payments table, provide an English description of the following queries and include their results:
+
+**Link not working** - used the table in the checkpoint for below.
+
+     SELECT date, amount
+     FROM payments;
+
+     - Find the date and amount of payments
+     Output
+     Date	    Amount	
+    5/1/2016	1500.00	
+    5/10/2016	37.00	 
+    5/15/2016	124.93	
+    5/23/2016	54.72	
+
+
+     SELECT amount
+     FROM payments
+     WHERE amount > 500;
+
+     - Find the amount of each payment when the amount is greater than ($)500
+     Output
+     Amount 1500.00
+
+
+     SELECT *
+     FROM payments
+     WHERE payee = 'Mega Foods';
+
+    - Find among all columns payments from the payee's row titled 'Mega Foods'
+    Date	    Payee	    Amount	Memo
+    5/15/2016	Mega Foods	124.93	Groceries
+
+
+8. Given this users table, write SQL queries using the following criteria and include the output:
+
+**Link not working** - used the table in the checkpoint for below.
+
+The email and sign-up date for the user named DeAndre Data.
+
+SELECT email, sign-up date
+FROM users
+WHERE name = 'DeAndre Data';
+
+Output
+email               sign-up date
+datad@comcast.net   2008-01-20
+ 
+
+The user ID for the user with email 'aleesia.algorithm@uw.edu'.
+
+SELECT user ID
+FROM users
+WHERE email = 'aleesia.algorithm@uw.edu';
+
+Output
+userID
+1
+
+All the columns for the user ID equal to 4.
+
+SELECT *
+FROM users
+WHERE userid = 4;
+
+Output
+userid	name	        email	            signup
+4	    Brandy Boolean	bboolean@nasa.gov	1999-10-15
