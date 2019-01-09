@@ -1,0 +1,162 @@
+1. How do you find related data held in two separate data tables?
+Use the SQL JOIN clause to combine data from two tables into one.
+
+2. Explain, in your own words, the difference between an INNER JOIN, LEFT OUTER JOIN, and RIGHT OUTER JOIN. Give a real-world example for each.
+
+INNER JOIN - uses a column found in both tables and selects those rows that match the join condition. 
+eg. 2 tables: one for students at a school and one for all classes available (ie. math, science). Could use a JOIN clause to list all students enrolled in Math class.
+
+RIGHT OUTER JOIN - retrieves records from table two (right), with the matching records in table one (left). If no matches, right side record will contain 'null'.
+eg. Using previous; Would list all classes available and students currently enrolled in those classes as well as any classes without enrolled students (null)
+
+LEFT OUTER JOIN - retrieves records from table one (left), with the matching records in table two (right). If no matches, right side record will contain 'null'.
+eg. Using previous; Would list all students available to enroll and their currently enrolled in classes as well as any students not enrolled in a class (null)
+
+
+3. Define primary key and foreign key. Give a real-world example for each.
+Primary key is a unique identifier to each row of data in a table. 
+eg. Student ID of a school to identify all students enrolled.
+
+Foreign key is a unique identifier of another table used in a table to connect them to one another.
+eg. Table to identify all athlete students, use student ID as foreign key to list/join.
+
+4. Define aliasing.
+Abbreviating table names to short variable names (single letter) in a query.
+
+5. Change this query so that you are using aliasing:
+SELECT professor.name, compensation.salary, compensation.vacation_days 
+FROM professor JOIN
+compensation ON professor.id =
+compensation.professor_id;
+
+
+SELECT p.name, c.salary, c.vacation_days 
+FROM professor AS p
+JOIN compensation as c
+ON p.id = c.professor_id;
+
+
+6. Why would you use a NATURAL JOIN? Give a real-world example.
+To combine two tables with columns of the same name; returns into one combined column.  
+eg. table of live-on-campus students and table of meal plans. Use NATURAL JOIN to combine all students and their respective meal plans.
+
+7. Using this Employee schema and data, write queries to find the following information:
+Q: List all employees and all shifts.
+
+SELECT employees.name, scheduled_shifts.shift_id
+FROM employees
+JOIN scheduled_shifts
+ON employees.id = scheduled_shifts.employee_id;
+
+8. Using this Adoption schema and data, please write queries to retrieve the following information and include the results:
+
+Q: Create a list of all volunteers. If the volunteer is fostering a dog, include each dog as well.
+
+SELECT volunteers.first_name, volunteers.last_name, dogs.name 
+FROM volunteers 
+LEFT OUTER JOIN dogs 
+ON volunteers.foster_dog_id = dogs.id;
+
+first_name  last_name	    dog_name
+Rubeus	    Hagrid          Munchkin
+Marjorie	Dursley         Marmaduke
+Sirius	    Black           null
+Remus	    Lupin           null
+Albus	    Dumbledore      null
+
+Q: The cat's name, adopter's name, and adopted date for each cat adopted within the past month to be displayed as part of the "Happy Tail" social media promotion which posts recent successful adoptions.
+
+SELECT cats.name, adopters.first_name, adopters.last_name, cat_adoptions.date
+FROM cats 
+JOIN cat_adoptions ON cats.id = cat_adoptions.cat_id
+JOIN adopters ON adopters.id = cat_adoptions.adopter_id
+WHERE cat_adoptions.date > CURRENT_DATE - INTERVAL '30 DAYS';
+
+name	    first_name	last_name	date
+Mushi	    Arabella	Figg	    2018-12-19
+Victoire	Argus	    Filch	    2018-12-24
+
+Q: Create a list of adopters who have not yet chosen a dog to adopt.
+
+SELECT adopters.first_name, adopters.last_name
+FROM adopters
+LEFT OUTER JOIN dog_adoptions
+ON adopters.id = dog_adoptions.adopter_id
+WHERE dog_adoptions.adopter_id IS NULL;
+
+first_name	last_name
+Hermione	Granger
+Arabella	Figg
+
+Q: Lists of all cats and all dogs who have not been adopted.
+
+SELECT cats.name                        
+FROM cats
+LEFT OUTER JOIN cat_adoptions
+ON cats.id = cat_adoptions.cat_id
+WHERE cat_adoptions.cat_id IS NULL;
+
+name
+Seashell
+Nala
+
+
+FROM dogs
+LEFT OUTER JOIN dog_adoptions
+ON dogs.id = dog_adoptions.dog_id
+WHERE dog_adoptions.dog_id IS NULL;
+
+name
+Boujee
+Munchkin
+Marley
+Lassie
+Marmaduke
+
+
+Q: The name of the person who adopted Rosco.
+
+SELECT adopters.first_name, adopters.last_name
+FROM dogs
+JOIN dog_adoptions ON dogs.id = dog_adoptions.dog_id
+JOIN adopters ON adopters.id = dog_adoptions.adopter_id
+WHERE dogs.name = 'Rosco';
+
+first_name	last_name
+Argus	    Filch
+
+
+9. Using this Library schema and data, write queries applying the following scenarios and include the results:
+
+Q: To determine if the library should buy more copies of a given book, please provide the names and position, in order, of all of the patrons with a hold (request for a book with all copies checked out) on "Advanced Potion-Making".
+
+SELECT patrons.name, holds.rank 
+FROM patrons 
+JOIN holds ON patrons.id = holds.patron_id 
+WHERE isbn = '9136884926';
+
+name		    rank
+Terry Boot	    1
+Cedric Diggory	2
+
+Q: List all of the library patrons. If they have one or more books checked out, list the books with the patrons.
+
+SELECT patrons.id, patrons.name, transactions.isbn, books.title
+FROM patrons
+LEFT OUTER JOIN transactions
+ON patrons.id = transactions.patron_id
+LEFT OUTER JOIN books
+ON books.isbn = transactions.isbn
+ORDER BY patrons.id;
+
+id	name	            isbn	    title
+1	Hermione Granger	3458400871	Fantastic Beasts and Where to Find Them
+1	Hermione Granger	1840918626	Hogwarts: A History
+2	Terry Boot	        9136884926	Advanced Potion-Making
+2	Terry Boot	        3458400871	Fantastic Beasts and Where to Find Them
+3	Padma Patil	        3458400871	Fantastic Beasts and Where to Find Them
+4	Cho Chang	        9136884926	Advanced Potion-Making
+5	Cedric Diggory	    3458400871	Fantastic Beasts and Where to Find Them
+
+
+
