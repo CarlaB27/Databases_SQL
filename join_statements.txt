@@ -141,22 +141,19 @@ Cedric Diggory	2
 
 Q: List all of the library patrons. If they have one or more books checked out, list the books with the patrons.
 
-SELECT patrons.id, patrons.name, transactions.isbn, books.title
+SELECT patrons.id, patrons.name, transactions.isbn, books.title, transactions.checked_out_date, transactions.checked_in_date
 FROM patrons
 LEFT OUTER JOIN transactions
 ON patrons.id = transactions.patron_id
 LEFT OUTER JOIN books
 ON books.isbn = transactions.isbn
+WHERE transactions.checked_in_date IS null
 ORDER BY patrons.id;
 
-id	name	            isbn	    title
-1	Hermione Granger	3458400871	Fantastic Beasts and Where to Find Them
-1	Hermione Granger	1840918626	Hogwarts: A History
-2	Terry Boot	        9136884926	Advanced Potion-Making
-2	Terry Boot	        3458400871	Fantastic Beasts and Where to Find Them
-3	Padma Patil	        3458400871	Fantastic Beasts and Where to Find Them
-4	Cho Chang	        9136884926	Advanced Potion-Making
-5	Cedric Diggory	    3458400871	Fantastic Beasts and Where to Find Them
+
+id	name	        isbn	    title	                                   checked_out_date	checked_in_date
+2	Terry Boot	    9136884926	Advanced Potion-Making	                    2019-01-09	
+5	Cedric Diggory	3458400871	Fantastic Beasts and Where to Find Them	    2019-01-11	
 
 
 
